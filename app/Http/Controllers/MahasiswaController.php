@@ -70,8 +70,10 @@ class MahasiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Mahasiswa $mahasiswa)
+    public function destroy($id)
     {
-         Mahasiswa::where()->delete();
-    }
+        Mahasiswa::find($id)->delete();
+
+        return redirect()->action([MahasiswaController::class, 'index']);
+    }    
 }

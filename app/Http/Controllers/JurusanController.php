@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataKuliah;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
 
-class MataKuliahController extends Controller
+class JurusanController extends Controller
 {
     /**
      * Menampilkan daftar semua dosen
      */
     public function index()
     {
-        $matakuliah = MataKuliah::all();
-        return view('matakuliah.index', compact('matakuliah'));
+        $jurusan = Jurusan::all();
+        return view('jurusan.index', compact('jurusan'));
     }
 
     /**
@@ -21,7 +21,7 @@ class MataKuliahController extends Controller
      */
     public function create()
     {
-        return view('matakuliah.create');
+        return view('jurusan.create');
     }
 
     /**
@@ -32,9 +32,9 @@ class MataKuliahController extends Controller
         // Mengambil semua data dari form kecuali token
         $data = $request->except('_token');
         
-        MataKuliah::create($data);
+        Jurusan::create($data);
 
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('jurusan.index');
     }
 
     /**
@@ -43,13 +43,13 @@ class MataKuliahController extends Controller
     public function edit($id)
     {
         // Menggunakan find() agar lebih stabil mencari ID
-        $matakuliah = MataKuliah::find($id);
+        $jurusan = Jurusan::find($id);
         
-        if (!$matakuliah) {
-            return redirect()->route('matakuliah.index')->with('error', 'Data tidak ditemukan');
+        if (!$jurusan) {
+            return redirect()->route('jurusan.index')->with('error', 'Data tidak ditemukan');
         }
 
-        return view('matakuliah.edit', compact('matakuliah'));
+        return view('jurusan.edit', compact('jurusan'));
     }
 
     /**
@@ -57,14 +57,14 @@ class MataKuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $matakuliah = MataKuliah::find($id);
+        $jurusan = Jurusan::find($id);
         
         // Mengambil semua data form kecuali token dan method PUT
         $data = $request->except(['_token', '_method']);
         
-        $matakuliah->update($data);
+        $jurusan->update($data);
 
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('jurusan.index');
     }
 
     /**
@@ -72,9 +72,9 @@ class MataKuliahController extends Controller
      */
     public function destroy($id)
     {
-        $matakuliah = MataKuliah::find($id);
-        $matakuliah->delete();
+        $jurusan = Jurusan::find($id);
+        $jurusan->delete();
 
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('jurusan.index');
     }
 }

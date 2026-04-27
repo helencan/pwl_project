@@ -8,58 +8,73 @@ use Illuminate\Http\Request;
 class DosenController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar semua dosen
      */
     public function index()
     {
-        //
+        $dosen = Dosen::all();
+        return view('dosen.index', compact('dosen'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form tambah dosen
      */
     public function create()
     {
-        //
+        return view('dosen.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data dosen baru
      */
     public function store(Request $request)
     {
-        //
+        // Mengambil semua data dari form kecuali token
+        $data = $request->except('_token');
+        
+        Dosen::create($data);
+
+        return redirect()->route('dosen.index');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan form edit dosen berdasarkan ID
      */
-    public function show(Dosen $dosen)
+    public function edit($id)
     {
-        //
+        // Menggunakan find() agar lebih stabil mencari ID
+        $dosen = Dosen::find($id);
+        
+        if (!$dosen) {
+            return redirect()->route('dosen.index')->with('error', 'Data tidak ditemukan');
+        }
+
+        return view('dosen.edit', compact('dosen'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Memperbarui data dosen di database
      */
-    public function edit(Dosen $dosen)
+    public function update(Request $request, $id)
     {
-        //
+        $dosen = Dosen::find($id);
+        
+        // Mengambil semua data form kecuali token dan method PUT
+        $data = $request->except(['_token', '_method']);
+        
+        $dosen->update($data);
+
+        return redirect()->route('dosen.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Menghapus data dosen
      */
-    public function update(Request $request, Dosen $dosen)
+    public function destroy($id)
     {
-        //
-    }
+        $dosen = Dosen::find($id);
+        $dosen->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Dosen $dosen)
-    {
-        //
+        return redirect()->route('dosen.index');
     }
 }
