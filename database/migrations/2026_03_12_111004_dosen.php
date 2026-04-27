@@ -13,14 +13,14 @@ return new class extends Migration
     {
          Schema::create('tabel_jurusan',function (Blueprint $table) {
             $table->id();
-            $table->string('Fullname')();
-            $table->string('NIP')();
-            $table->string('NIDN')();
-            $table->string('Pendidikan_Terakhir')();
-            $table->string('Jurusan_id')();
-            $table->string('Tempat_Lahir')();
-            $table->date('Tanggal_Lahir')();
-            $table->text('Alamat')();
+            $table->string('Fullname');
+            $table->string('NIP');
+            $table->string('NIDN');
+            $table->string('Pendidikan_Terakhir');
+            $table->string('Jurusan_id');
+            $table->string('Tempat_Lahir');
+            $table->date('Tanggal_Lahir');
+            $table->text('Alamat');
             $table->timestamps();
            });  
     }
