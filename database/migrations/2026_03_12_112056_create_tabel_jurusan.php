@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tabel_jurusan', function (Blueprint $table) {
             $table->id();
-            $table->string('Nama_Jurusan')();
-            $table->string('Kode_Jurusan')();
+            $table->string('Nama_Jurusan');
+            $table->string('Kode_Jurusan');
         }
     );
 }    
