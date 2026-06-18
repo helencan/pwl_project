@@ -8,73 +8,72 @@ use Illuminate\Http\Request;
 class JurusanController extends Controller
 {
     /**
-     * Menampilkan daftar semua dosen
+     * Display a listing of the resource.
      */
     public function index()
     {
-        $jurusan = Jurusan::all();
-        return view('jurusan.index', compact('jurusan'));
+        return view('jurusan.index', [
+            'jurusan' => Jurusan::all()
+        ]);
     }
 
     /**
-     * Menampilkan form tambah dosen
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('jurusan.create');
+        return view('jurusan.create', []);
     }
 
     /**
-     * Menyimpan data dosen baru
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Mengambil semua data dari form kecuali token
         $data = $request->except('_token');
-        
+
         Jurusan::create($data);
 
-        return redirect()->route('jurusan.index');
+        return redirect()->action([JurusanController::class, 'index']);
     }
 
     /**
-     * Menampilkan form edit dosen berdasarkan ID
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        return Jurusan::find($id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        // Menggunakan find() agar lebih stabil mencari ID
-        $jurusan = Jurusan::find($id);
-        
-        if (!$jurusan) {
-            return redirect()->route('jurusan.index')->with('error', 'Data tidak ditemukan');
-        }
-
-        return view('jurusan.edit', compact('jurusan'));
+        return view('jurusan.edit', [
+            'jurusan' => Jurusan::find($id)
+        ]);
     }
 
     /**
-     * Memperbarui data dosen di database
+     * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        $jurusan = Jurusan::find($id);
-        
-        // Mengambil semua data form kecuali token dan method PUT
-        $data = $request->except(['_token', '_method']);
-        
-        $jurusan->update($data);
+        $data = $request->except('_token', 'id', '_method');
 
-        return redirect()->route('jurusan.index');
+        Jurusan::find($id)->update($data);
+
+        return redirect()->action([JurusanController::class, 'index']);
     }
 
     /**
-     * Menghapus data dosen
+     * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        $jurusan = Jurusan::find($id);
-        $jurusan->delete();
+        Jurusan::find($id)->delete();
 
-        return redirect()->route('jurusan.index');
-    }
+        return redirect()->action([JurusanController::class, 'index']);
+    }    
 }

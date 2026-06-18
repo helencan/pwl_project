@@ -8,73 +8,72 @@ use Illuminate\Http\Request;
 class DosenController extends Controller
 {
     /**
-     * Menampilkan daftar semua dosen
+     * Display a listing of the resource.
      */
     public function index()
     {
-        $dosen = Dosen::all();
-        return view('dosen.index', compact('dosen'));
+        return view('dosen.index', [
+            'dosen' => Dosen::all()
+        ]);
     }
 
     /**
-     * Menampilkan form tambah dosen
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('dosen.create');
+        return view('dosen.create', []);
     }
 
     /**
-     * Menyimpan data dosen baru
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Mengambil semua data dari form kecuali token
         $data = $request->except('_token');
-        
+
         Dosen::create($data);
 
-        return redirect()->route('dosen.index');
+        return redirect()->action([DosenController::class, 'index']);
     }
 
     /**
-     * Menampilkan form edit dosen berdasarkan ID
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        return Dosen::find($id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        // Menggunakan find() agar lebih stabil mencari ID
-        $dosen = Dosen::find($id);
-        
-        if (!$dosen) {
-            return redirect()->route('dosen.index')->with('error', 'Data tidak ditemukan');
-        }
-
-        return view('dosen.edit', compact('dosen'));
+        return view('dosen.edit', [
+            'dosen' => Dosen::find($id)
+        ]);
     }
 
     /**
-     * Memperbarui data dosen di database
+     * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        $dosen = Dosen::find($id);
-        
-        // Mengambil semua data form kecuali token dan method PUT
-        $data = $request->except(['_token', '_method']);
-        
-        $dosen->update($data);
+        $data = $request->except('_token', 'id', '_method');
 
-        return redirect()->route('dosen.index');
+        Dosen::find($id)->update($data);
+
+        return redirect()->action([DosenController::class, 'index']);
     }
 
     /**
-     * Menghapus data dosen
+     * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        $dosen = Dosen::find($id);
-        $dosen->delete();
+        Dosen::find($id)->delete();
 
-        return redirect()->route('dosen.index');
-    }
+        return redirect()->action([DosenController::class, 'index']);
+    }    
 }
