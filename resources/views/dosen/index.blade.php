@@ -7,10 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
-    <a href={{route('dosen.add')}}>
-        <input type="button" value="Create">
-    </a>
-    <table class="table table-striped">
+    <a href="{{ route('dosen.create') }}">
+    <input type="button" value="Create">
+</a>
+        <table class="table table-striped">
         <thead>
             <th>No</th>
             <th>Nama Lengkap</th>
@@ -40,7 +40,7 @@
                 <a href={{route('dosen.edit', $d->id)}}>
                     <input type="button" value="Edit">
                 </a>
-                <form action="{{route('dosen.delete', $d->id)}}"  method="post">
+                <form action="{{ route('dosen.destroy', $d->id) }}" method="post">
                     @csrf
                     <input type="hidden" name="id" value="{{$d->id}}">
                     <input type="hidden" name="_method" value="DELETE">
