@@ -10,9 +10,9 @@
         <option value="">-- Pilih Mata Kuliah --</option>
 
         @foreach($matakuliah as $m)
-            <option value="{{ $m->Kode_Mata_Kuliah }}">
-                {{ $m->Nama_Mata_Kuliah }}
-            </option>
+            <option value="{{ $m->id }}">
+                 {{ $m->Nama_Mata_Kuliah }}
+             </option>
         @endforeach
     </select>
     <br><br>
@@ -23,9 +23,9 @@
 
         @foreach($dosen as $d)
             <option value="{{ $d->id }}">
-                {{ $d->nama }}
-            </option>
-        @endforeach
+              {{ $d->Fullname }}
+             </option>
+        @endforeach 
     </select>
 
     <br><br>
