@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_mata_kuliah', function (Blueprint $table) {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->integer('Jurusan_Id');
-            $table->string('Kode_Mata_Kuliah')->unique();
-            $table->string('Nama_Mata_Kuliah');
-            $table->integer('SKS');
-            $table->integer('Dosen_Id');
+            $table->morphs('tokenable');
+            $table->text('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable()->index();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_mata_kuliah');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };

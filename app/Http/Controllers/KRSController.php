@@ -2,69 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KRS;
+use App\Models\Krs;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class KRSController extends Controller
+class KrsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Halaman index
     public function index()
     {
-        return view('krs.index', [
-            'krs' => KRS::get()
-        ]);
+        $krs = Krs::with('mahasiswa')->get();
+
+        return view('krs.index', compact('krs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Form create
     public function create()
     {
-        //
+        $mahasiswa = Mahasiswa::all();
+
+        return view('krs.create', compact('mahasiswa'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Simpan data
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        return view('krs.show', [
-            'krs' => KRS::where('id', '=', $id)->with(['detail', 'mahasiswa',
-                'detail.kelas', 'detail.kelas.dosen', 'detail.kelas.matakuliah'])->first()
+        $request->validate([
+            'kode_mahasiswa' => 'required',
+            'tahun_ajaran' => 'required',
+            'semester' => 'required',
+            'status' => 'required',
+            'total_sks' => 'required'
         ]);
+
+        Krs::create([
+            'kode_mahasiswa' => $request->kode_mahasiswa,
+            'tahun_ajaran' => $request->tahun_ajaran,
+            'semester' => $request->semester,
+            'status' => $request->status,
+            'total_sks' => $request->total_sks
+        ]);
+
+        return redirect('/krs');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(KRS $kRS)
+    // Hapus
+    public function destroy($id)
     {
-        //
-    }
+        Krs::findOrFail($id)->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, KRS $kRS)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(KRS $kRS)
-    {
-        //
+        return redirect('/krs');
     }
 }

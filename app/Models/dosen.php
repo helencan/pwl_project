@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Dosen extends Model
 {
-    protected $table ='table_dosen';
+    protected $table = 'table_dosen';
 
     protected $fillable = [
         'Fullname',

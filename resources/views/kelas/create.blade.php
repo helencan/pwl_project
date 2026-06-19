@@ -1,143 +1,77 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create Kelas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<form action="{{ route('kelas.store') }}" method="POST">
+    @csrf
 
-<div class="container mt-4">
-    <h2>Tambah Kelas</h2>
+    <label>Kode Kelas</label><br>
+    <input type="text" name="kode_kelas">
+    <br><br>
 
-    <form action="{{ route('kelas.store') }}" method="post">
-        @csrf
+    <label>Mata Kuliah</label><br>
+    <select name="kode_mata_kuliah">
+        <option value="">-- Pilih Mata Kuliah --</option>
 
-        <table class="table table-bordered">
+        @foreach($matakuliah as $m)
+            <option value="{{ $m->Kode_Mata_Kuliah }}">
+                {{ $m->Nama_Mata_Kuliah }}
+            </option>
+        @endforeach
+    </select>
+    <br><br>
 
-            <tr>
-                <td>Kode Kelas</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="kode_kelas" class="form-control" required>
-                </td>
-            </tr>
+    <label>Dosen</label><br>
+    <select name="kode_dosen">
+        <option value="">-- Pilih Dosen --</option>
 
-            <tr>
-                <td>Mata Kuliah</td>
-                <td>:</td>
-                <td>
-                    <select name="kode_mata_kuliah" class="form-control" required>
-                        <option value="">-- Pilih Mata Kuliah --</option>
-                        @foreach ($mataKuliah as $mk)
-                            <option value="{{ $mk->id }}">
-                                {{ $mk->Nama_Mata_Kuliah }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
+        @foreach($dosen as $d)
+            <option value="{{ $d->id }}">
+                {{ $d->nama }}
+            </option>
+        @endforeach
+    </select>
 
-            <tr>
-                <td>Dosen Pengajar</td>
-                <td>:</td>
-                <td>
-                    <select name="kode_dosen" class="form-control" required>
-                        <option value="">-- Pilih Dosen --</option>
-                        @foreach ($dosen as $d)
-                            <option value="{{ $d->id }}">
-                                {{ $d->Fullname }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
+    <br><br>
 
-            <tr>
-                <td>Hari</td>
-                <td>:</td>
-                <td>
-                    <select name="hari" class="form-control" required>
-                        <option value="">-- Pilih Hari --</option>
-                        @foreach ($hari as $h)
-                            <option value="{{ $h }}">
-                                {{ ucfirst($h) }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
+    <label>Hari</label><br>
+    <select name="hari">
+        <option value="senin">Senin</option>
+        <option value="selasa">Selasa</option>
+        <option value="rabu">Rabu</option>
+        <option value="kamis">Kamis</option>
+        <option value="jumat">Jumat</option>
+    </select>
 
-            <tr>
-                <td>Jam</td>
-                <td>:</td>
-                <td>
-                    <select name="jam" class="form-control" required>
-                        <option value="">-- Pilih Jam --</option>
-                        @foreach ($jam as $j)
-                            <option value="{{ $j }}">
-                                {{ $j }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
+    <br><br>
 
-            <tr>
-                <td>Tahun Ajaran</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="tahun_ajaran" class="form-control" placeholder="2025/2026" required>
-                </td>
-            </tr>
+    <label>Jam</label><br>
+    <select name="jam">
+        <option value="08:00 - 09:40">08:00 - 09:40</option>
+        <option value="09:50 - 11:30">09:50 - 11:30</option>
+        <option value="12:30 - 14:10">12:30 - 14:10</option>
+        <option value="17:00 - 18:40">17:00 - 18:40</option>
+        <option value="19:00 - 20:40">19:00 - 20:40</option>
+    </select>
 
-            <tr>
-                <td>Semester</td>
-                <td>:</td>
-                <td>
-                    <input type="radio" name="semester" value="ganjil" required>
-                    Ganjil
+    <br><br>
 
-                    <br>
+    <label>Tahun Ajaran</label><br>
+    <input type="text" name="tahun_ajaran">
 
-                    <input type="radio" name="semester" value="genap">
-                    Genap
-                </td>
-            </tr>
+    <br><br>
 
-            <tr>
-                <td>Ruang Kelas</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="ruang_kelas" class="form-control" required>
-                </td>
-            </tr>
+    <label>Ruang Kelas</label><br>
+    <input type="text" name="ruang_kelas">
 
-            <tr>
-                <td>Jumlah Maksimum</td>
-                <td>:</td>
-                <td>
-                    <input type="number" name="jumlah_max" class="form-control" required>
-                </td>
-            </tr>
+    <br><br>
 
-            <tr>
-                <td colspan="3">
-                    <button type="submit" class="btn btn-primary">
-                        Simpan
-                    </button>
+    <label>Jumlah Max</label><br>
+    <input type="number" name="jumlah_max">
 
-                    <button type="reset" class="btn btn-secondary">
-                        Reset
-                    </button>
-                </td>
-            </tr>
+    <br><br>
 
-        </table>
+    <label>Semester</label><br>
+    <input type="radio" name="semester" value="ganjil"> Ganjil
+    <input type="radio" name="semester" value="genap"> Genap
 
-    </form>
-</div>
+    <br><br>
 
-</body>
-</html>
+    <input type="submit" value="Simpan">
+</form>

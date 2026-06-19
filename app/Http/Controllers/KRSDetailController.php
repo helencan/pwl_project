@@ -2,64 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KRSDetail;
+use App\Models\Krs;
+use App\Models\KrsDetail;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
-class KRSDetailController extends Controller
+class KrsDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Halaman index
     public function index()
     {
-        //
+        $krsdetail = KrsDetail::with([
+            'krs',
+            'kelas'
+        ])->get();
+
+        return view(
+            'krs_detail.index',
+            compact('krsdetail')
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Form create
     public function create()
     {
-        //
+        $krs = Krs::all();
+        $kelas = Kelas::all();
+
+        return view(
+            'krs_detail.create',
+            compact('krs', 'kelas')
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Simpan
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_krs' => 'required',
+            'kode_kelas' => 'required',
+            'status' => 'required'
+        ]);
+
+        KrsDetail::create([
+            'kode_krs' => $request->kode_krs,
+            'kode_kelas' => $request->kode_kelas,
+            'status' => $request->status
+        ]);
+
+        return redirect('/krs-detail');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(KRSDetail $kRSDetail)
+    // Hapus
+    public function destroy($id)
     {
-        //
-    }
+        KrsDetail::findOrFail($id)->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(KRSDetail $kRSDetail)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, KRSDetail $kRSDetail)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(KRSDetail $kRSDetail)
-    {
-        //
+        return redirect('/krs-detail');
     }
 }
