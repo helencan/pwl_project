@@ -20,14 +20,15 @@ Route::get('/', function () {
     Route::resource('/kelas', KelasController::class);
     Route::resource('/krs', KRSController::class);
 
-Route::get('/register', [AuthController::class, 'registerView']);
+Route::get('/register', [AuthController::class, 'registerView'])->name('register.view');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::get('/login', [AuthController::class, 'loginView']);
+Route::get('/login', [AuthController::class, 'loginView'])->name('login.view');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 // Route::get      => Get Data     => R => select
-// SELECT ALL   /   SELECT SPESIFIK
 // Route::post     => Save Data    => C => insert into  /   create
 // Route::put      => Update Data  => U => update  /   alter
 // Route::delete   => Delete Data  => D => delete  /   drop

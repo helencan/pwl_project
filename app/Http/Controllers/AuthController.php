@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -67,7 +66,7 @@ class AuthController extends Controller
         //
     }
 
-    //Register
+    // Register
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -76,50 +75,57 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $user = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect(route('mahasiswa.index'));
+        return redirect('/login')->with('success', 'Registrasi berhasil. Silakan login.');
     }
 
-    // User login
+    // Login
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        try {
-            if (! $token = Auth::attempt($credentials)) {
-                return response()->json(['error' => 'Invalid credentials'], 401);
-            }
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-            // Get the authenticated user.
-            $user = Auth::user();
-
-            // (optional) Attach the role to the token.
-            $token = Auth::claims(['role' => $user->role])->fromUser($user);
-            
-            return redirect(route('mahasiswa.index'), 302, ['Authorization' => 'Bearer ' . $token]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Could not create token'], 500);
+            return redirect()->route('mahasiswa.index');
         }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
     }
 
-    //Register Form
-    public function registerView(Request $request)
+    // Register Form
+    public function registerView()
     {
         return view('register');
     }
 
     // Login Form
-    public function loginView(Request $request)
+    public function loginView()
     {
         return view('login');
+    }
+
+    // Logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }
