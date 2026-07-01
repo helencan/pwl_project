@@ -1,36 +1,36 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KRSController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KRSController;
 
 Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
-    Route::resource('/mahasiswa', MahasiswaController::class);
-    Route::resource('/dosen', DosenController::class);
-    Route::resource('/matakuliah', MataKuliahController::class);
-    Route::resource('/jurusan', JurusanController::class);
-    Route::resource('/kelas', KelasController::class);
-    Route::resource('/krs', KRSController::class);
+Route::resource('/mahasiswa', MahasiswaController::class);
+Route::resource('/dosen', DosenController::class);
+Route::resource('/matakuliah', MataKuliahController::class);
+Route::resource('/jurusan', JurusanController::class);
+Route::resource('/kelas', KelasController::class);
+Route::resource('/krs', KRSController::class);
 
-Route::get('/register', [AuthController::class, 'registerView'])->name('register.view');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/register', [AuthController::class, 'registerView'])
+    ->name('register.view');
 
-Route::get('/login', [AuthController::class, 'loginView'])->name('login.view');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', [AuthController::class, 'loginView'])
+    ->name('login.view');
 
-// Route::get      => Get Data     => R => select
-// Route::post     => Save Data    => C => insert into  /   create
-// Route::put      => Update Data  => U => update  /   alter
-// Route::delete   => Delete Data  => D => delete  /   drop
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login');
 
-// Create, Read, Update, Delete
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');

@@ -21,7 +21,9 @@ class Kelas extends Model
         'semester'
     ];
 
-    public static function ListHari(){
+
+    public static function ListHari()
+    {
         return [
             'Senin',
             'Selasa',
@@ -32,21 +34,38 @@ class Kelas extends Model
         ];
     }
 
-    public static function ListJam(){
+
+    public static function ListJam()
+    {
         return [
             '08:00 - 09:40',
             '09:50 - 11:30',
+            '10:40 - 12:20',
             '12:30 - 14:10',
             '17:00 - 18:40',
             '19:00 - 20:40'
         ];
     }
-    
-    public function mataKuliah() {
-        return $this->belongsTo(MataKuliah::class, 'kode_mata_kuliah');
+
+
+    // Relasi ke Mata Kuliah
+    public function mataKuliah()
+    {
+        return $this->belongsTo(
+            MataKuliah::class,
+            'kode_mata_kuliah',
+            'Kode_Mata_Kuliah'
+        );
     }
 
-    public function dosen() {
-        return $this->belongsTo(Dosen::class, 'kode_dosen');
+
+    // Relasi ke Dosen
+    public function dosen()
+    {
+        return $this->belongsTo(
+            Dosen::class,
+            'kode_dosen',
+            'id'
+        );
     }
 }

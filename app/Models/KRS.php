@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class KRS extends Model
 {
-    protected $table = 'table_krs';
+    protected $table = 'krs';
 
     protected $fillable = [
         'kode_mahasiswa',
@@ -16,11 +16,13 @@ class KRS extends Model
         'total_sks'
     ];
 
-    public function mahasiswa() {
+    public function mahasiswa()
+    {
         return $this->hasOne(Mahasiswa::class, 'id', 'kode_mahasiswa');
     }
 
-    public function detail() {
+    public function detail()
+    {
         return $this->hasMany(KRSDetail::class, 'krs_id', 'id');
     }
 }

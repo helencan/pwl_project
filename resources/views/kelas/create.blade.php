@@ -1,77 +1,126 @@
+@extends('layouts.app')
+
+@section('content')
+
+<div class="container">
+
+<h3>Tambah Kelas</h3>
+
 <form action="{{ route('kelas.store') }}" method="POST">
-    @csrf
 
-    <label>Kode Kelas</label><br>
-    <input type="text" name="kode_kelas">
-    <br><br>
+@csrf
 
-    <label>Mata Kuliah</label><br>
-    <select name="kode_mata_kuliah">
-        <option value="">-- Pilih Mata Kuliah --</option>
+<div class="mb-3">
+<label>Kode Kelas</label>
+<input type="text" name="kode_kelas" class="form-control">
+</div>
 
-        @foreach($matakuliah as $m)
-            <option value="{{ $m->id }}">
-                 {{ $m->Nama_Mata_Kuliah }}
-             </option>
-        @endforeach
-    </select>
-    <br><br>
+<div class="mb-3">
+<label>Mata Kuliah</label>
 
-    <label>Dosen</label><br>
-    <select name="kode_dosen">
-        <option value="">-- Pilih Dosen --</option>
+<select name="kode_mata_kuliah" class="form-control">
 
-        @foreach($dosen as $d)
-            <option value="{{ $d->id }}">
-              {{ $d->Fullname }}
-             </option>
-        @endforeach 
-    </select>
+@foreach($matakuliah as $mk)
 
-    <br><br>
+<option value="{{ $mk->id }}">
+{{ $mk->Nama_Mata_Kuliah }}
+</option>
 
-    <label>Hari</label><br>
-    <select name="hari">
-        <option value="senin">Senin</option>
-        <option value="selasa">Selasa</option>
-        <option value="rabu">Rabu</option>
-        <option value="kamis">Kamis</option>
-        <option value="jumat">Jumat</option>
-    </select>
+@endforeach
 
-    <br><br>
+</select>
 
-    <label>Jam</label><br>
-    <select name="jam">
-        <option value="08:00 - 09:40">08:00 - 09:40</option>
-        <option value="09:50 - 11:30">09:50 - 11:30</option>
-        <option value="12:30 - 14:10">12:30 - 14:10</option>
-        <option value="17:00 - 18:40">17:00 - 18:40</option>
-        <option value="19:00 - 20:40">19:00 - 20:40</option>
-    </select>
+</div>
 
-    <br><br>
+<div class="mb-3">
 
-    <label>Tahun Ajaran</label><br>
-    <input type="text" name="tahun_ajaran">
+<label>Dosen</label>
 
-    <br><br>
+<select name="kode_dosen" class="form-control">
 
-    <label>Ruang Kelas</label><br>
-    <input type="text" name="ruang_kelas">
+@foreach($dosen as $d)
 
-    <br><br>
+<option value="{{ $d->id }}">
+{{ $d->Fullname }}
+</option>
 
-    <label>Jumlah Max</label><br>
-    <input type="number" name="jumlah_max">
+@endforeach
 
-    <br><br>
+</select>
 
-    <label>Semester</label><br>
-    <input type="radio" name="semester" value="ganjil"> Ganjil
-    <input type="radio" name="semester" value="genap"> Genap
+</div>
 
-    <br><br>
+<div class="mb-3">
 
-    <input type="submit" value="Simpan">
+<label>Hari</label>
+
+<select name="hari" class="form-control">
+
+<option>Senin</option>
+<option>Selasa</option>
+<option>Rabu</option>
+<option>Kamis</option>
+<option>Jumat</option>
+<option>Sabtu</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>Jam</label>
+
+<select name="jam" class="form-control">
+
+<option>07:00 - 08:40</option>
+<option>08:50 - 10:30</option>
+<option>10:40 - 12:20</option>
+<option>13:00 - 14:40</option>
+<option>14:50 - 16:30</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+<label>Tahun Ajaran</label>
+<input type="text" name="tahun_ajaran" class="form-control">
+</div>
+
+<div class="mb-3">
+
+<label>Semester</label>
+
+<select name="semester" class="form-control">
+
+<option value="ganjil">Ganjil</option>
+<option value="genap">Genap</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+<label>Ruang Kelas</label>
+<input type="text" name="ruang_kelas" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Jumlah Maksimal</label>
+<input type="number" name="jumlah_max" class="form-control">
+</div>
+
+<button class="btn btn-primary">
+Simpan
+</button>
+
+<a href="{{ route('kelas.index') }}" class="btn btn-secondary">
+Kembali
+</a>
+
 </form>
+
+</div>
+
+@endsection

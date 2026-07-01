@@ -1,48 +1,112 @@
-<a href="/kelas/create">
-    <input type="button" value="Create">
-</a>
+@extends('layouts.app')
 
-<table border="1">
-    <thead>
-        <th>No</th>
-        <th>Kode Kelas</th>
-        <th>Nama Dosen</th>
-        <th>Nama Mata Kuliah</th>
-        <th>Ruang Kelas</th>
-        <th>Hari</th>
-        <th>Jam</th>
-        <th>Tahun Ajaran</th>
-        <th>Aksi</th>
-    </thead>
+@section('content')
 
-    @foreach ($kelas as $m)
-    <tr>
-        <td>{{ $m->id }}</td>
-        <td>{{ $m->kode_kelas }}</td>
+<div class="container">
 
-        <td>{{ $m->dosen->Fullname }}</td>
+    <h2>Data Kelas</h2>
 
-        <td>{{ $m->matakuliah->NamaMK }}</td>
+    <a href="{{ route('kelas.create') }}" class="btn btn-primary mb-3">
+        Tambah Kelas
+    </a>
 
-        <td>{{ $m->ruang_kelas }}</td>
-        <td>{{ $m->hari }}</td>
-        <td>{{ $m->jam }}</td>
-        <td>{{ $m->tahun_ajaran }}</td>
 
-        <td>
-            <form action="/kelas/{{ $m->id }}"
-                  method="post">
+    <table class="table table-bordered">
 
-                @csrf
-                <input type="hidden"
-                       name="_method"
-                       value="DELETE">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kode Kelas</th>
+                <th>Nama Dosen</th>
+                <th>Nama Mata Kuliah</th>
+                <th>Ruang Kelas</th>
+                <th>Hari</th>
+                <th>Jam</th>
+                <th>Tahun Ajaran</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-                <input type="submit"
-                       value="Delete">
-            </form>
-        </td>
-    </tr>
-    @endforeach
 
-</table>
+        <tbody>
+
+        @foreach($kelas as $item)
+
+            <tr>
+
+                <td>
+                    {{ $loop->iteration }}
+                </td>
+
+
+                <td>
+                    {{ $item->kode_kelas }}
+                </td>
+
+
+                <td>
+                    {{ $item->dosen->Fullname ?? '-' }}
+                </td>
+
+
+                <td>
+                    {{ $item->mataKuliah->Nama_Mata_Kuliah ?? '-' }}
+                </td>
+
+
+                <td>
+                    {{ $item->ruang_kelas }}
+                </td>
+
+
+                <td>
+                    {{ $item->hari }}
+                </td>
+
+
+                <td>
+                    {{ $item->jam }}
+                </td>
+
+
+                <td>
+                    {{ $item->tahun_ajaran }}
+                </td>
+
+
+                <td>
+
+                    <a href="{{ route('kelas.edit', $item->id) }}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+
+                    <form action="{{ route('kelas.destroy', $item->id) }}"
+                          method="POST"
+                          style="display:inline">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Hapus data kelas?')">
+                            Hapus
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@endsection
